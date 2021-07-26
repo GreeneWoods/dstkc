@@ -3,6 +3,18 @@ import sklearn.model_selection as skl_ms
 
 class DataScienceToolKit:
     def __init__(self, df, model=None, y_col=None, x_cols=None, train_test_split_params={}):
+        '''
+        This toolkit is meant to be a storage container that organizes your data and data science
+        models so that it is easy to work with.  This class acts as both a pre-processor, as well
+        as a storage container
+        :param df: Pandas dataframe for
+        :param model: data science model
+        :param y_col: column in df that contains dependent variable
+        :param x_cols: columns in df that contain independent variables
+        :param train_test_split_params: parameters for sci-kit learn's train test split function
+            see https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+            for reference
+        '''
         self.data = df
         if y_col is None:
             self.y_col = df.columns[0]
@@ -47,8 +59,19 @@ class DataScienceToolKit:
         self.predictions = None
         self.score = None
         self.notes = None
+        self.misc_container = {}
 
     def split_x_y(self, df, y_col, x_cols):
+        '''
+        separates data into x data (independent variables) and
+        y data (dependent variables).  Get's used at instantiation,
+        can also be called outside of class as a stand alone function for
+        quick and dirty use cases
+        :param df: pandas dataframe
+        :param y_col: column name with dependent variable
+        :param x_cols: column names with independent variables
+        :return: a series, and a data frame containing relevant data
+        '''
         x = df.loc[:, x_cols]
         y = df[y_col]
 
