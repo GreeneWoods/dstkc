@@ -90,22 +90,26 @@ def example_main():
         lambda x: 0 if x == 'Iris-setosa' else 1 if x == 'Iris-versicolor' else 2
     )
 
-    # there are two useful cases for this toolkit as it stands, one is cycling through columns if you're unsure
-    #     what combination of columns to use
+    # there are two useful cases for this toolkit as it stands, one is cycling
+    #     through columns if you're unsure what combination of columns to use
     all_x_cols = df.columns[:-1]
     y_col = df.columns[-1:]
 
-    # here we are going to try different combinations of columns, and store the information. note
-    #     how there is no mention of data processing other than our data cleaning with our dataframe
+    # here we are going to try different combinations of columns, and store
+    #     the information. note how there is no mention of data processing
+    #     other than our data cleaning with our dataframe
     toolkit_storage_container = []
     for i in range(1, len(all_x_cols)):
-        # not technically useful in this instance, but naming the model will be something to revisit in the future
+        # not technically useful in this instance, but naming
+        #   the model will be something to revisit in the future
         model_name = 'knn'
 
         x_cols = all_x_cols[i:]
 
-        # the class uses train test split from sklearn, the final argument are the parameters for the function call
-        #     see: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html for details
+        # the class uses train test split from sklearn, the final argument are the
+        #     parameters for the function call
+        #     see: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html
+        #     for details
         dstk = DataScienceToolKit(
             df=df,
             model=KNeighborsClassifier(),
@@ -116,29 +120,31 @@ def example_main():
             }
         )
 
-        # each container can store notes, among other handy values, there is also a miscellaneous container
-        #     which acts as a dictionary in case you want to have something else float around with all of your
+        # each container can store notes, among other handy values, there is also
+        #     a miscellaneous container which acts as a dictionary in case
+        #     you want to have something else float around with all of your
         #     data and models
         dstk.notes = model_name
 
         # and just like that, you have all of your data ready to go, in one place!
-        print(dstk.x_train)  # here is your data as a dataframe for inspection, debugging, etc.
+        print(dstk.x_train)  # here is your data as a dataframe for inspection, debugging
         print(dstk.x_train_array)  # here is your dat as an array for your modeling
 
-        print(dstk.y_train)  # here is your data as a dataframe for inspection, debugging, etc.
+        print(dstk.y_train)  # here is your data as a dataframe for inspection, debugging
         print(dstk.y_train_array)  # here is your dat as an array for your modeling
 
-        print(dstk.x_test)  # here is your data as a dataframe for inspection, debugging, etc.
+        print(dstk.x_test)  # here is your data as a dataframe for inspection, debugging
         print(dstk.x_test_array)  # here is your dat as an array for your modeling
 
-        print(dstk.y_test)  # here is your data as a dataframe for inspection, debugging, etc.
+        print(dstk.y_test)  # here is your data as a dataframe for inspection, debugging
         print(dstk.y_test_array)  # here is your dat as an array for your modeling
 
         # please note that we fit and score the model using the model's native features
         #     so we can use any model, this is not only for scikit learn
         dstk.model.fit(dstk.x_train_array, dstk.y_train_array)
 
-        # we can also store the predictions and score of the model, in any fashion or form you would like
+        # we can also store the predictions and score of the model, in any fashion or
+        #   form you would like
         dstk.predictions = dstk.model.predict(dstk.x_test_array)
         dstk.score = dstk.model.score(
             dstk.x_test_array, dstk.y_test_array
@@ -147,18 +153,20 @@ def example_main():
         # we're gonna store this for later, this is where the real use case comes in
         toolkit_storage_container.append(dstk)
 
-    # now that we have finished iterating over a bunch of different column sets, maybe we want to know
-    #     which had the best performance
+    # now that we have finished iterating over a bunch of different column sets,
+    #   maybe we want to know which had the best performance
     best_dstk = max(toolkit_storage_container, key=attrgetter('score'))
 
-    # now we may want to know what the columns were, or inspect that dataset outside of our code
+    # now we may want to know what the columns were, or inspect that
+    #   dataset outside of our code
     print(best_dstk.x_cols)
     # best_dstk.train_data.to_csv('./train_data.csv')
     # best_dstk.test_data.to_csv('./test_data.csv')
 
     # most importantly, all of the data, along with the model, performance information,
-    #     predictions, arrays, dataframes, and anything else are now sitting together, and you can
-    #     use any feature of the model to inspect, or use any aspect of the work we have done, without
+    #     predictions, arrays, dataframes, and anything else are now sitting
+    #     together, and you can use any feature of the model to inspect, or
+    #     use any aspect of the work we have done, without
     #     altering any of your prior code
 
     # another use case is comparing model performance, not just column set performance
@@ -180,9 +188,10 @@ def example_main():
         new_model = value_
 
         # note that in this instance, we are not declaring x cols, because we are going to
-        #     use all columns other than the y_col, and that is default behaviour for the toolkit
-        #     also, if the y col was in the first position of the dataframe, it would not have to be
-        #     specified either
+        #     use all columns other than the y_col, and that is default
+        #     behaviour for the toolkit
+        #     also, if the y col was in the first position of the dataframe,
+        #     it would not have to be specified either
 
         dstk = DataScienceToolKit(
             df=df,
@@ -216,11 +225,16 @@ def example_main():
     # this time around, we want to know which model had the best score
     best_dstk = max(toolkit_storage_container, key=attrgetter('score'))
 
-    # and yet again, we have all of the relevant information, like which model was best, what the performance was
-    #     we also have all the models, in case we want to test or compare any aspect of them
-    #     further more, one can combine the two cases and iterate over column sets, and model choices
-    #     to quickly hone in on interesting data points, without having to clean the data or split the data
-    #     and store the data in any way that usually causes (well at least for me) any headaches
+    # and yet again, we have all of the relevant information,
+    #     like which model was best, what the performance was
+    #     we also have all the models, in case we want to
+    #     test or compare any aspect of them
+    #     further more, one can combine the two cases
+    #     and iterate over column sets, and model choices
+    #     to quickly hone in on interesting data points,
+    #     without having to clean the data or split the data
+    #     and store the data in any way that usually causes
+    #     (well at least for me) any headaches
     print(best_dstk.notes)
     print(best_dstk.score)
     print(best_dstk.misc_container['confusion_matrix'])
@@ -232,8 +246,6 @@ def example_main():
     )
 
 
-
 if __name__ == '__main__':
     example_main()
-
 ```
