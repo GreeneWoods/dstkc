@@ -5,7 +5,7 @@ This toolkit is meant to be a storage container that organizes your data and dat
 models so that it is easy to work with.  This class acts as both a pre-processor, as well
 as a storage container
 
-:param df: Pandas dataframe for
+:param df: Pandas dataframe
 
 :param model: data science model
 
